@@ -2,8 +2,10 @@ package main
 
 import (
 	"acne-scan-api/configs"
+	"acne-scan-api/internal/app"
 	"acne-scan-api/internal/infrastructure/database"
 
+	"github.com/go-playground/validator"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -11,7 +13,7 @@ import (
 )
 
 func main() {
-	app := fiber.New()
+	fiber := fiber.New()
 
 	config, err := configs.LoadConfig()
 	if err != nil {
@@ -19,19 +21,19 @@ func main() {
 	}
 
 	// Initialize database connection
-	_, err = database.NewMySQLConnection(&config.MySQL)
+	db, err := database.NewMySQLConnection(&config.MySQL)
 	if err != nil {
 		logrus.Fatal("Error connecting to MySQL:", err.Error())
 	}
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World!")
-	})
+	validate := validator.New()
 
-	app.Use(cors.New())
-	app.Use(logger.New(logger.Config{
+	app.InitApp(db,validate,fiber)
+
+	fiber.Use(cors.New())
+	fiber.Use(logger.New(logger.Config{
 		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
 	}))
 
-	app.Listen(":8080")
+	fiber.Listen(":8080")
 }
