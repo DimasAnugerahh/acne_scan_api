@@ -2,32 +2,25 @@ package database
 
 import (
 	"acne-scan-api/configs"
-	"acne-scan-api/internal/model/domain"
+	"database/sql"
 	"fmt"
+	"log"
 
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
+	_ "github.com/go-sql-driver/mysql"
 )
 
-func NewMySQLConnection(config *configs.MySQLConfig) (*gorm.DB, error) {
-	dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8mb4&parseTime=True&loc=Local",
+func NewMySQLConnection(config *configs.MySQLConfig) (*sql.DB, error) {
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		config.Username,
 		config.Password,
 		config.Host,
 		config.Port,
 		config.Database)
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := sql.Open("mysql", dsn)
 	if err != nil {
+		log.Fatalf("Failed to connect to MySQL: %v", err)
 		return nil, err
 	}
 
-	migration(db)
-
 	return db, nil
-}
-
-func migration(db *gorm.DB){
-	db.AutoMigrate(
-		&domain.Users{},
-	)
 }
