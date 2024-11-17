@@ -29,7 +29,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/acne-scan-api:latest
 
-      - name: Connect SSH
+      - name: Connect SSH and deploy container
         uses: appleboy/ssh-action@v0.1.9
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -37,9 +37,12 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
+            # Stop and remove any existing container
             sudo docker stop ${{ secrets.CONTAINER_NAME }} 
             sudo docker rm ${{ secrets.CONTAINER_NAME }} 
             sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/acne-scan-api 
+
+            # Run the new container
             sudo docker run --name ${{ secrets.CONTAINER_NAME }} -p 8080:8080 -d \
               -e DB_HOST=${{secrets.DB_HOST}} \
               -e DB_PORT=${{secrets.DB_PORT}} \
@@ -50,3 +53,6 @@ jobs:
               -e SMTP_PASS=${{secrets.SMTP_PASS}} \
               -e SMTP_USERNAME=${{secrets.SMTP_USERNAME}} \
               ${{ secrets.DOCKERHUB_USERNAME }}/acne-scan-api
+
+            # Run the migrations
+            sudo docker exec ${{ secrets.CONTAINER_NAME }} migrate -database "mysql://${{secrets.DB_USERNAME}}:${{secrets.DB_PASSWORD}}@tcp(${{secrets.DB_HOST}}:${{secrets.DB_PORT}})/${{secrets.DB_NAME}}" -path /path/to/migrations up
