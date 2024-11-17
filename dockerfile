@@ -9,5 +9,8 @@ RUN go mod download && go mod verify
 COPY . .
 RUN go build -v -o /usr/local/bin/app ./cmd/main.go
 
+# Copy the migrations into the Docker image
+COPY internal/infrastructure/database /app/internal/infrastructure/database
+
 
 CMD ["app"]
