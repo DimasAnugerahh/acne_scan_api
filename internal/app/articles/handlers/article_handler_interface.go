@@ -8,12 +8,14 @@ import (
 
 type ArticleHandler interface {
 	Create(c *fiber.Ctx) error
+	GetAll(c *fiber.Ctx) error
+	GetById(c *fiber.Ctx) error
 }
 
-type ArticleHandlerImpl struct{
+type ArticleHandlerImpl struct {
 	ArticleService service.ArticleService
-} 
+}
 
-func NewArticleHandlerImpl(service service.ArticleService)ArticleHandler{
+func NewArticleHandlerImpl(service service.ArticleService) ArticleHandler {
 	return &ArticleHandlerImpl{ArticleService: service}
 }
