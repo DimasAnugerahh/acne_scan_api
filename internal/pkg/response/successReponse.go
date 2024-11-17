@@ -16,9 +16,9 @@ func SuccessResponse(c *fiber.Ctx, code int, message string, data any) error {
 }
 
 func StatusCreated(c *fiber.Ctx, code int, message string, data any) error {
-	return ErrorResponse(c, http.StatusCreated, message, data)
+	return SuccessResponse(c, http.StatusCreated, message, data)
 }
 
 func StatusOk(c *fiber.Ctx, code int, message string, data any) error {
-	return ErrorResponse(c, http.StatusOK, message, data)
+	return SuccessResponse(c, http.StatusOK, message, data)
 }
