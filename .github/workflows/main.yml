@@ -49,9 +49,6 @@ jobs:
               -e DB_NAME=${{secrets.DB_NAME}} \
               -e DB_USERNAME=${{secrets.DB_USERNAME}} \
               -e DB_PASSWORD=${{secrets.DB_PASSWORD}} \
-              -e JWT_SECRET=${{secrets.JWT_SECRET}} \
-              -e SMTP_PASS=${{secrets.SMTP_PASS}} \
-              -e SMTP_USERNAME=${{secrets.SMTP_USERNAME}} \
               ${{ secrets.DOCKERHUB_USERNAME }}/acne-scan-api
 
             # Run the migrations
