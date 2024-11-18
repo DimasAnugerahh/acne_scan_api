@@ -2,7 +2,7 @@ package service
 
 import (
 	"acne-scan-api/internal/model/web"
-	conversion "acne-scan-api/internal/pkg/conversion/request"
+	conversion "acne-scan-api/internal/pkg/conversion/response"
 	"fmt"
 	"time"
 )
@@ -19,7 +19,7 @@ func (articleService *ArticleServiceImpl) Create(request web.ArticleCreateReques
 
 	wib, err := time.LoadLocation("Asia/Jakarta") // WIB (UTC+7)
 	if err != nil {
-		fmt.Println("Error loading WIB location:", err)
+		return fmt.Errorf("error loading WIB location: %s", err.Error())
 	}
 
 	createdAt := time.Now().In(wib)
