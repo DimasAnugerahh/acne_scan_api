@@ -13,4 +13,5 @@ type ArticleCreateRequest struct {
 type ArticleUpdateRequest struct {
 	Image       string `json:"image"`
 	Description string `json:"description"`
+	UpdatedAt   time.Time `json:"updated_at"`
 }
