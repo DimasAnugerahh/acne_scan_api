@@ -14,7 +14,7 @@ func (articleHandler *ArticleHandlerImpl) Create(c *fiber.Ctx) error {
 	req := new(web.ArticleCreateRequest)
 	
 	if err := c.BodyParser(&req); err != nil {
-		return response.BadRequest(c, "failed to bind category request", err)
+		return response.BadRequest(c, "failed to bind article request", err)
 	}
 
 	err := articleHandler.ArticleService.Create(*req)
@@ -22,8 +22,8 @@ func (articleHandler *ArticleHandlerImpl) Create(c *fiber.Ctx) error {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(c, err)
 		}
-		return response.InternalServerError(c, "failed to create category, something happen", err)
+		return response.InternalServerError(c, "failed to create article, something happen", err)
 	}
 
-	return response.StatusCreated(c, http.StatusCreated, "success to create category", nil)
+	return response.StatusCreated(c, http.StatusCreated, "success to create article", nil)
 }

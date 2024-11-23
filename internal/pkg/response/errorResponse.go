@@ -9,7 +9,7 @@ import (
 )
 
 func ErrorResponse(c *fiber.Ctx, code int, message string,errors any) error{
-	return c.JSON(web.ErrorResponse{
+	return c.Status(code).JSON(web.ErrorResponse{
 		Code: code,
 		Message: message,
 		Errors: errors,
