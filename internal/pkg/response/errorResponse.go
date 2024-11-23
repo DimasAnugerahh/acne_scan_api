@@ -17,7 +17,7 @@ func ErrorResponse(c *fiber.Ctx, code int, message string,errors any) error{
 
 }
 
-func InternalServerError(c *fiber.Ctx, message string, err error)error{
+func InternalServerError(c *fiber.Ctx, message string, err string)error{
 	logrus.Error()
 	return ErrorResponse(c, http.StatusInternalServerError,message,err)
 }

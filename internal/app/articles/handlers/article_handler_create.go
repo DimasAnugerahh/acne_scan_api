@@ -22,7 +22,7 @@ func (articleHandler *ArticleHandlerImpl) Create(c *fiber.Ctx) error {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(c, err)
 		}
-		return response.InternalServerError(c, "failed to create article, something happen", err)
+		return response.InternalServerError(c, "failed to create article, something happen", err.Error())
 	}
 
 	return response.StatusCreated(c, http.StatusCreated, "success to create article", nil)

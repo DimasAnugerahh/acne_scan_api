@@ -25,7 +25,7 @@ func (pr *ProductRecommendationHandlerImpl) Create(c *fiber.Ctx) error {
 		if strings.Contains(err.Error(), "not found") {
 			return response.BadRequest(c, "not found", err)
 		}
-		return response.InternalServerError(c, "failed to create product recommendation, something happen", err)
+		return response.InternalServerError(c, "failed to create product recommendation, something happen", err.Error())
 	}
 
 	return response.StatusCreated(c, http.StatusCreated, "success to create product recommendation", nil)

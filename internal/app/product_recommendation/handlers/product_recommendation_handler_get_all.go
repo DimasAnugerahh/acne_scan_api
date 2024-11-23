@@ -14,7 +14,7 @@ data, err := pr.productRecommendationService.GetAll()
 		if strings.Contains(err.Error(), "not found") {
 			return response.BadRequest(c, "category not found", err)
 		}
-		return response.InternalServerError(c, "failed to get all category, something happen", err)
+		return response.InternalServerError(c, "failed to get all category, something happen", err.Error())
 	}
 
 	return response.StatusOk(c,http.StatusOK,"success",data)

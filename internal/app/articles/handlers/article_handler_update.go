@@ -35,7 +35,7 @@ func (articleHandler *ArticleHandlerImpl) Update(c *fiber.Ctx) error {
 		if strings.Contains(err.Error(), "not found") {
 			return response.BadRequest(c, "cannot found article to update", err)
 		}
-		return response.InternalServerError(c, "failed to update article, something happen", err)
+		return response.InternalServerError(c, "failed to update article, something happen", err.Error())
 	}
 
 	return response.StatusOk(c,200,"article updated",nil)

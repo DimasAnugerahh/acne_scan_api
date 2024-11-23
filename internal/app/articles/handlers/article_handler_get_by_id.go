@@ -25,7 +25,7 @@ func (articleHandler *ArticleHandlerImpl) GetById(c *fiber.Ctx) error {
 		if strings.Contains(err.Error(), "not found") {
 			return response.BadRequest(c, "article not found", err)
 		}
-		return response.InternalServerError(c, "failed to get article, something happen", err)
+		return response.InternalServerError(c, "failed to get article, something happen", err.Error())
 	}
 
 	return response.StatusOk(c, http.StatusOK, "success", data)

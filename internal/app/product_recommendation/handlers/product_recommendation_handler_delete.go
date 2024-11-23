@@ -29,7 +29,7 @@ func (pr *ProductRecommendationHandlerImpl) Delete(c *fiber.Ctx) error{
 		if strings.Contains(err.Error(), "not found") {
 			return response.BadRequest(c, "recommendation not found", err)
 		}
-		return response.InternalServerError(c, "failed to delete recommendation, something happen", err)
+		return response.InternalServerError(c, "failed to delete recommendation, something happen", err.Error())
 	}
 
 	return response.StatusOk(c,200,"success deleted recommendation",nil)
