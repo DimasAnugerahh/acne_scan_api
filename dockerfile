@@ -11,10 +11,7 @@ RUN go mod tidy
 RUN go build -v -o /usr/local/bin/app ./cmd/main.go
 
 # Install migrate tool
-RUN curl -L https://github.com/golang-migrate/migrate/releases/download/v4.15.1/migrate.linux-amd64.tar.gz -o migrate.tar.gz \
-  && tar -xvzf migrate.tar.gz \
-  && mv migrate /usr/local/bin/migrate \
-  && chmod +x /usr/local/bin/migrate
+
 
 
 # Copy the migrations into the Docker image
