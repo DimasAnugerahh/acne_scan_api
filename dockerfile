@@ -40,10 +40,10 @@ RUN curl -L https://github.com/golang-migrate/migrate/releases/download/v4.15.1/
   && chmod +x /usr/local/bin/migrate
 
 # Ensure dependencies are installed
-RUN go mod tidy
+RUN sudo go mod tidy
 
 # Build the application
-RUN go build -v -o /usr/local/bin/app cmd/main.go
+RUN sudo go build -v -o /usr/local/bin/app cmd/main.go
 
 # Run the application
 CMD ["/usr/local/bin/app"]
