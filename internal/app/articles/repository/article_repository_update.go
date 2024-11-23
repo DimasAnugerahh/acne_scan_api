@@ -34,7 +34,7 @@ func (articleRepository *ArticleRepositoryImpl) Update(description, image string
     // Execute the query
     _, err := articleRepository.DB.Exec(query, values...)
     if err != nil {
-        return fmt.Errorf("failed to update article: %w", err)
+        return fmt.Errorf("failed to update article: %s", err.Error())
     }
 
     return nil
