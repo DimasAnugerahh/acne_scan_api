@@ -8,7 +8,7 @@ RUN go mod download && go mod verify
 
 COPY . .
 RUN go mod tidy
-RUN go build -v -o /usr/local/bin/app ./cmd/main.go
+RUN go build -v -o /usr/local/bin/app cmd/main.go
 
 # Install migrate tool
 RUN curl -L https://github.com/golang-migrate/migrate/releases/download/v4.15.1/migrate.linux-amd64.tar.gz -o migrate.tar.gz \
