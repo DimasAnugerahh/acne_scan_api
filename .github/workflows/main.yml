@@ -43,7 +43,7 @@ jobs:
             sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/acne-scan-api 
 
             # Run the new container
-            sudo docker run --name ${{ secrets.CONTAINER_NAME }} -p 443:443 -d \
+            sudo docker run --name ${{ secrets.CONTAINER_NAME }} -p 8080:8080 -d \
               -e DB_HOST=${{secrets.DB_HOST}} \
               -e DB_PORT=${{secrets.DB_PORT}} \
               -e DB_NAME=${{secrets.DB_NAME}} \
