@@ -35,5 +35,5 @@ func main() {
 		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
 	}))
 
-	fiber.Listen(":8080")
+	fiber.Listen(":443")
 }
