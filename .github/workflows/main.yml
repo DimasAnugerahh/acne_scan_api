@@ -25,7 +25,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./dockerfile
+          file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/acne-scan-api:latest
 
@@ -37,19 +37,29 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            # Stop and remove any existing container
-            sudo docker stop ${{ secrets.CONTAINER_NAME }} 
-            sudo docker rm ${{ secrets.CONTAINER_NAME }} 
-            sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/acne-scan-api 
+            # Stop and remove any existing containers
+            sudo docker stop ${{ secrets.CONTAINER_NAME }} || true
+            sudo docker rm ${{ secrets.CONTAINER_NAME }} || true
+            sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/acne-scan-api || true
 
-            # Run the new container
-            sudo docker run --name ${{ secrets.CONTAINER_NAME }} -p 8080:8080 -d \
-              -e DB_HOST=${{secrets.DB_HOST}} \
-              -e DB_PORT=${{secrets.DB_PORT}} \
-              -e DB_NAME=${{secrets.DB_NAME}} \
-              -e DB_USERNAME=${{secrets.DB_USERNAME}} \
-              -e DB_PASSWORD=${{secrets.DB_PASSWORD}} \
+            # Pull the new image
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/acne-scan-api:latest
+
+            # Run the new application container
+            sudo docker run --name ${{ secrets.CONTAINER_NAME }} --network caddy_net -d \
+              -e DB_HOST=${{ secrets.DB_HOST }} \
+              -e DB_PORT=${{ secrets.DB_PORT }} \
+              -e DB_NAME=${{ secrets.DB_NAME }} \
+              -e DB_USERNAME=${{ secrets.DB_USERNAME }} \
+              -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
               ${{ secrets.DOCKERHUB_USERNAME }}/acne-scan-api
 
-            # Run the migrations
-            sudo docker exec ${{ secrets.CONTAINER_NAME }} migrate -database "mysql://${{secrets.DB_USERNAME}}:${{secrets.DB_PASSWORD}}@tcp(${{secrets.DB_HOST}}:${{secrets.DB_PORT}})/${{secrets.DB_NAME}}" -path /app/internal/infrastructure/database/migrations up
+            # Create or start the Caddy container
+            sudo docker run --name caddy --network caddy_net -d -p 80:80 -p 443:443 \
+              -v ./Caddyfile:/etc/caddy/Caddyfile \
+              -v caddy_data:/data \
+              -v caddy_config:/config \
+              caddy:latest
+
+            # Run the database migrations
+            sudo docker exec ${{ secrets.CONTAINER_NAME }} migrate -database "mysql://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@tcp(${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }})/${{ secrets.DB_NAME }}" -path /app/internal/infrastructure/database/migrations up
