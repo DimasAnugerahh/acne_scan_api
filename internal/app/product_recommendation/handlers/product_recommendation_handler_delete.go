@@ -10,11 +10,6 @@ import (
 )
 
 func (pr *ProductRecommendationHandlerImpl) Delete(c *fiber.Ctx) error{
-	// ifExist,err:=pr.productRecommendationService.GetById(id)
-	// if ifExist==nil {
-	// 	return response.BadRequest(c, "cannot found article to update", err)
-	// }
-
 	idparam := c.Params("id")
 	id, err := strconv.Atoi(idparam)
 	if err != nil {
@@ -33,5 +28,4 @@ func (pr *ProductRecommendationHandlerImpl) Delete(c *fiber.Ctx) error{
 	}
 
 	return response.StatusOk(c,200,"success deleted recommendation",nil)
-
 }

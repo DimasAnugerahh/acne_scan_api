@@ -12,7 +12,7 @@ type ProductRecommendationService interface {
 	Create(pr web.ProductRecommendationRequest)error
 	GetAll() ([]domain.ProductRecommendation, error)
 	Delete(id int)error
-
+	GetById(id int) (*domain.ProductRecommendation, error)
 }
 
 type ProductRecommendationServiceImpl struct{

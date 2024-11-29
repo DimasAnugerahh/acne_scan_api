@@ -7,6 +7,7 @@ import (
 func (ar *ProductRecommendationRoutesImpl) ProductRecommendationRoutes(app *fiber.App){
 	app.Post("/recommendations",ar.productRecommendationHandler.Create)
 	app.Get("/recommendations",ar.productRecommendationHandler.GetAll)
+	app.Get("/recommendations/:id",ar.productRecommendationHandler.GetById)
 	app.Delete("/recommendations/:id",ar.productRecommendationHandler.Delete)
 
 

@@ -9,6 +9,7 @@ type ProductRecommendationRepository interface {
 	Create(productRecommendation *domain.ProductRecommendation) error
 	GetAll() ([]domain.ProductRecommendation, error)
 	Delete(id int)error
+	GetById(id int) (*domain.ProductRecommendation,error)
 }
 
 type ProductRecommendationImpl struct {
