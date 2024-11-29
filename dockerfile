@@ -10,8 +10,7 @@ RUN go mod tidy
 
 COPY . .
 
-COPY acne-scan-bucket.json /usr/src/app/
-
+COPY ./acne-scan-bucket.json /usr/src/app/
 
 
 RUN go build -v -o /usr/local/bin/app ./cmd/main.go
