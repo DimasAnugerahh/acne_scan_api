@@ -8,11 +8,7 @@
 *.so
 *.dylib
 .env
-<<<<<<< HEAD
 acne-scan-bucket.json
-=======
-
->>>>>>> parent of d6c9d78 (feat: connect bucket)
 # Test binary, built with `go test -c`
 *.test
 
