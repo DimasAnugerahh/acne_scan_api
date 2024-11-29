@@ -6,7 +6,14 @@ WORKDIR /usr/src/app
 COPY go.mod go.sum ./
 RUN go mod download && go mod verify
 
+RUN go mod tidy
+
 COPY . .
+
+COPY acne-scan-bucket.json /usr/src/app/
+
+
+
 RUN go build -v -o /usr/local/bin/app ./cmd/main.go
 
 # Install migrate tool
