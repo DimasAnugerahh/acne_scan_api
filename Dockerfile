@@ -31,6 +31,6 @@ ENV DB_USERNAME=root
 ENV DB_PASSWORD=acne-scan-db-password
 ENV DB_NAME=acne-scan
 ENV DB_PORT=3306
-ENV DB_HOST=/cloudsql//acnescan-final:asia-southeast2:acne-scan-sql
+ENV DB_HOST=acnescan-final:asia-southeast2:acne-scan-sql
 
 CMD ["app"]
