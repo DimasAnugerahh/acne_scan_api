@@ -4,6 +4,7 @@ import (
 	"acne-scan-api/configs"
 	"acne-scan-api/internal/app"
 	"acne-scan-api/internal/infrastructure/database"
+	cloudstorage "acne-scan-api/internal/pkg/cloud_storage"
 
 	"github.com/go-playground/validator"
 	"github.com/gofiber/fiber/v2"
@@ -27,8 +28,9 @@ func main() {
 	}
 
 	validate := validator.New()
+	bucketUploader := cloudstorage.NewStorageBucketUploader(&config.StorageBucket)
 
-	app.InitApp(db,validate,fiber)
+	app.InitApp(db,validate,fiber,bucketUploader)
 
 	fiber.Use(cors.New())
 	fiber.Use(logger.New(logger.Config{

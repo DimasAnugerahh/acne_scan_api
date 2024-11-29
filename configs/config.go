@@ -8,7 +8,8 @@ import (
 )
 
 type appConfig struct {
-	MySQL MySQLConfig
+	MySQL         MySQLConfig
+	StorageBucket StorageBucketConfig
 }
 
 type MySQLConfig struct {
@@ -17,6 +18,11 @@ type MySQLConfig struct {
 	Host     string
 	Port     string
 	Database string
+}
+
+type StorageBucketConfig struct {
+	BucketName string
+	GOOGLE_APPLICATION_CREDENTIALS string
 }
 
 func LoadConfig() (*appConfig, error) {
@@ -36,6 +42,10 @@ func LoadConfig() (*appConfig, error) {
 			Host:     os.Getenv("DB_HOST"),
 			Port:     os.Getenv("DB_PORT"),
 			Database: os.Getenv("DB_NAME"),
+		},
+		StorageBucket: StorageBucketConfig{
+			BucketName: os.Getenv("BUCKET_NAME"),
+			GOOGLE_APPLICATION_CREDENTIALS: os.Getenv("GOOGLE_APPLICATION_CREDENTIALS"),
 		},
 	}, nil
 }
