@@ -8,9 +8,10 @@
 *.so
 *.dylib
 acne-scan-bucket.json
+acne-scan-db.json
 .env
 app.yaml
-acne-scan-bucket.json
+start.sh
 # Test binary, built with `go test -c`
 *.test
 

@@ -1,2 +1,7 @@
 # acne-scan-bucket.json
 .env
+start.sh
+acne-scan-db.json
+acne-scan-bucket.json
+app.yaml
+
