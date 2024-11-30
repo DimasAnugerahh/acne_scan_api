@@ -7,7 +7,7 @@
 *.dll
 *.so
 *.dylib
-acne-scan-bucket.json
+# acne-scan-bucket.json
 acne-scan-db.json
 .env
 app.yaml
