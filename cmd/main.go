@@ -35,7 +35,7 @@ func main() {
 	// fiber.Use(cors.New())
 
 	fiber.Use(cors.New(cors.Config{
-		AllowOrigins: "http://localhost:3000, https://acnescan-final.et.r.appspot.com",
+		AllowOrigins:     "*",   
 		AllowMethods: "GET,POST,PUT,DELETE",
 		AllowHeaders: "Origin, Content-Type, Accept",
 	}))
