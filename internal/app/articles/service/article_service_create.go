@@ -21,12 +21,12 @@ func (articleService *ArticleServiceImpl) Create(request web.ArticleCreateReques
 	article := conversion.ArticleCreateRequestToArticleModel(request)
 
 	imageUrlChan := make(chan string)
-	errChan := make(chan error)
+	errChan := make(chan string)
 
 	go func() {
 		imageUrl, err := articleService.BucketUploder.Uploader(c, image)
 		if err != nil {
-			errChan <- err
+			errChan <- err.Error()
 			return
 		}
 
@@ -37,7 +37,7 @@ func (articleService *ArticleServiceImpl) Create(request web.ArticleCreateReques
 	case imageUrl := <-imageUrlChan:
 		article.Image = imageUrl
 	case err := <-errChan:
-		fmt.Println("Error uploading image:", err.Error())
+		return fmt.Errorf("error uploading image: %s", err)
 	}
 
 	wib, err := time.LoadLocation("Asia/Jakarta") // WIB (UTC+7)

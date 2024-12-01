@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"mime/multipart"
+	"net/http"
 
 	"cloud.google.com/go/storage"
 	"github.com/gofiber/fiber/v2"
@@ -30,6 +31,19 @@ func (si *StorageBucketUploaderImpl) Uploader(c *fiber.Ctx, file *multipart.File
 	srcFile, err := file.Open()
 	if err != nil {
 		return "", fmt.Errorf("failed to open file: %s", err.Error())
+	}
+
+	buffer := make([]byte, 512)
+	_, err = srcFile.Read(buffer)
+	if err != nil {
+		return "", fmt.Errorf("error reading file: %s", err)
+	}
+
+	// Detect the MIME type
+	filetype := http.DetectContentType(buffer)
+
+	if (filetype != "image/jpeg") && (filetype != "image/png") {
+		return "",fmt.Errorf("jenis file tidak valid")
 	}
 	
 	defer srcFile.Close()

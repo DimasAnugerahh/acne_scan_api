@@ -29,6 +29,9 @@ func (articleHandler *ArticleHandlerImpl) Create(c *fiber.Ctx) error {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(c, err)
 		}
+		if strings.Contains(err.Error(), "jenis file tidak valid") {
+			return response.BadRequest(c,"file format tidak valid",err)
+		}
 		return response.InternalServerError(c, "failed to create article, something happen", err.Error())
 	}
 
