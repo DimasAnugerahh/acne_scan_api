@@ -8,8 +8,9 @@ func (articleRepository *ArticleRepositoryImpl) GetById(id int) (*domain.Article
 
 	result := domain.Article{}
 
-	err := articleRepository.DB.QueryRow("select article_id, image, description,created_at,updated_at from article where article_id=?", id).Scan(
+	err := articleRepository.DB.QueryRow("select article_id,name, image, description,created_at,updated_at from article where article_id=?", id).Scan(
 		&result.ArticleId,
+		&result.Name,
 		&result.Image,
 		&result.Description,
 		&result.CreatedAt,
