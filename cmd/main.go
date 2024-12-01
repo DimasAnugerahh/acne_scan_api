@@ -30,9 +30,16 @@ func main() {
 	validate := validator.New()
 	bucketUploader := cloudstorage.NewStorageBucketUploader(&config.StorageBucket)
 
-	app.InitApp(db,validate,fiber,bucketUploader)
+	app.InitApp(db, validate, fiber, bucketUploader)
 
-	fiber.Use(cors.New())
+	// fiber.Use(cors.New())
+
+	fiber.Use(cors.New(cors.Config{
+		AllowOrigins: "http://localhost:3000, https://acnescan-final.et.r.appspot.com", // Allow both local and production
+		AllowMethods: "GET,POST,PUT,DELETE",                                            // Allowed HTTP methods
+		AllowHeaders: "Origin, Content-Type, Accept",                                   // Allowed headers
+	}))
+
 	fiber.Use(logger.New(logger.Config{
 		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
 	}))
