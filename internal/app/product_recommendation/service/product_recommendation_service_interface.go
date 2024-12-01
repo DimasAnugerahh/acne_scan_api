@@ -9,20 +9,21 @@ import (
 )
 
 type ProductRecommendationService interface {
-	Create(pr web.ProductRecommendationRequest)error
+	Create(pr web.ProductRecommendationRequest) error
 	GetAll() ([]domain.ProductRecommendation, error)
-	Delete(id int)error
+	Delete(id int) error
 	GetById(id int) (*domain.ProductRecommendation, error)
+	Update(article *web.ProductRecommendationUpdateRequest, id int) error
 }
 
-type ProductRecommendationServiceImpl struct{
+type ProductRecommendationServiceImpl struct {
 	ProductRecommendationRepository repository.ProductRecommendationRepository
-	Validator *validator.Validate
+	Validator                       *validator.Validate
 }
 
-func NewProductRecommendationService(pr repository.ProductRecommendationRepository,validate *validator.Validate) ProductRecommendationService{
+func NewProductRecommendationService(pr repository.ProductRecommendationRepository, validate *validator.Validate) ProductRecommendationService {
 	return &ProductRecommendationServiceImpl{
 		ProductRecommendationRepository: pr,
-		Validator: validate,
+		Validator:                       validate,
 	}
 }
