@@ -8,7 +8,7 @@ import (
 func (articleService *ArticleServiceImpl) Update(description, image string, id int) error {
 	ifExist, err := articleService.ArticleRepository.GetById(id)
 	if err != nil {
-		return fmt.Errorf("failed to check is article already exist:%s", err.Error())
+		return fmt.Errorf("failed to find article:%s", err.Error())
 	}
 
 	if ifExist == nil {
