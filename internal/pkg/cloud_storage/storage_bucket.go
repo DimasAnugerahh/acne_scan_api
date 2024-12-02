@@ -48,6 +48,9 @@ func (si *StorageBucketUploaderImpl) Uploader(c *fiber.Ctx, file *multipart.File
 	
 	defer srcFile.Close()
 
+	//reset file pointer
+	srcFile.Seek(0, 0)
+
 	if _, err := io.Copy(wc, srcFile); err != nil {
 		return "", fmt.Errorf("failed to copy file to storage: %s", err.Error())
 	}
