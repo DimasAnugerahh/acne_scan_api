@@ -3,17 +3,42 @@ package service
 import (
 	"acne-scan-api/internal/model/web"
 	conversion "acne-scan-api/internal/pkg/conversion/request"
+	"mime/multipart"
 	"time"
 
 	"fmt"
+
+	"github.com/gofiber/fiber/v2"
 )
 
-func (pr *ProductRecommendationServiceImpl) Create(productRecommendation web.ProductRecommendationRequest) error {
+func (pr *ProductRecommendationServiceImpl) Create(productRecommendation web.ProductRecommendationRequest,image *multipart.FileHeader,c *fiber.Ctx) error {
 	var err error
 
 	err = pr.Validator.Struct(productRecommendation)
 	if err != nil {
 		return err
+	}
+
+	conv := conversion.ProductRecommendationToModel(productRecommendation)
+
+	imageUrlChan := make(chan string)
+	errChan := make(chan string)
+
+	go func() {
+		imageUrl, err := pr.BucketUploder.Uploader(c, image)
+		if err != nil {
+			errChan <- err.Error()
+			return
+		}
+
+		imageUrlChan <- imageUrl
+	}()
+
+	select {
+	case imageUrl := <-imageUrlChan:
+		conv.Image = imageUrl
+	case err := <-errChan:
+		return fmt.Errorf("error uploading image: %s", err)
 	}
 
 	wib, err := time.LoadLocation("Asia/Jakarta") // WIB (UTC+7)
@@ -22,10 +47,8 @@ func (pr *ProductRecommendationServiceImpl) Create(productRecommendation web.Pro
 	}
 
 	createdAt := time.Now().In(wib)
-	productRecommendation.CreatedAt = createdAt
-	productRecommendation.UpdatedAt = createdAt
-
-	conv := conversion.ProductRecommendationToModel(productRecommendation)
+	conv.CreatedAt = createdAt
+	conv.UpdatedAt = createdAt
 
 	err = pr.ProductRecommendationRepository.Create(conv)
 	if err != nil {

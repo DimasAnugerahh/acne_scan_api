@@ -12,7 +12,7 @@ import (
 
 func InitApp(db *sql.DB, validate *validator.Validate, app *fiber.App, bs cloudstorage.StorageBucketUploader) {
 	ArticleRoutes := articles.ArticleSetup(db, validate, bs)
-	ProductRecommendationRoutes := productrecommendation.ProductRecommendationSetup(db, validate)
+	ProductRecommendationRoutes := productrecommendation.ProductRecommendationSetup(db, validate,bs)
 
 	ProductRecommendationRoutes.ProductRecommendationRoutes(app)
 	ArticleRoutes.ArticleRoutes(app)
