@@ -23,7 +23,7 @@ func (pr *ProductRecommendationHandlerImpl) Update(c *fiber.Ctx) error {
 	}
 
 	req := new(web.ProductRecommendationUpdateRequest)
-	if err := c.BodyParser(&req); err != nil {
+	if err := c.BodyParser(req); err != nil {
 		return response.BadRequest(c, "failed to bind product recommendation request", err)
 	}
 
