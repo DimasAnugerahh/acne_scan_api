@@ -1,0 +1,1 @@
+ALTER table users DROP COLUMN email

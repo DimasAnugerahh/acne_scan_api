@@ -1,0 +1,1 @@
+ALTER table users add COLUMN email VARCHAR(255);
