@@ -3,12 +3,14 @@ package service
 import (
 	"acne-scan-api/internal/app/auth/repository"
 	"acne-scan-api/internal/model/domain"
+	"acne-scan-api/internal/model/web"
 
 	"github.com/go-playground/validator"
 )
 
 type AuthService interface {
 	Login(username, password string) (*domain.Users, error)
+	Register(request *web.Register) error 
 }
 
 type AuthServiceImpl struct {
