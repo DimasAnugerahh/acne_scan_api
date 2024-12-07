@@ -1,0 +1,1 @@
+ALTER Table users add column `role` VARCHAR(32) after password;

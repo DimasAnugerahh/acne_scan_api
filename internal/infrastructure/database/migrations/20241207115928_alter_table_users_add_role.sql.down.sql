@@ -1,0 +1,1 @@
+ALTER Table users drop column `role`;
