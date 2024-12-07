@@ -27,6 +27,9 @@ func (authHandlers *AuthHandlersImpl) Login(c *fiber.Ctx) error {
 		if strings.Contains(err.Error(), "not found") {
 			return response.BadRequest(c, "not found", err)
 		}
+		if strings.Contains(err.Error(), "no rows") {
+			return response.BadRequest(c, "username atau password salah", err)
+		}
 		return response.InternalServerError(c, "failed to login, something happer", err.Error())
 	}
 
