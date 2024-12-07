@@ -26,3 +26,8 @@ func BadRequest(c *fiber.Ctx, message string, err error)error{
 	logrus.Error()
 	return ErrorResponse(c, http.StatusBadRequest,message,err)
 }
+
+func StatusForbidden(c *fiber.Ctx, message string, err error)error{
+	logrus.Error()
+	return ErrorResponse(c, http.StatusForbidden,message,err)
+}
