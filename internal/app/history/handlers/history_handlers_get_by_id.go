@@ -25,6 +25,9 @@ func (history *HistoryHandlersImpl) GetById(c *fiber.Ctx) error {
 		if strings.Contains(err.Error(), "not found") {
 			return response.BadRequest(c, "history not found", err)
 		}
+		if strings.Contains(err.Error(), "no result") {
+			return response.StatusOk(c,http.StatusOK, "history not found",nil)
+		}
 		return response.InternalServerError(c, "failed to get history, something happen", err.Error())
 	}
 
