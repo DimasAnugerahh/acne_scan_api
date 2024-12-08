@@ -1,8 +1,10 @@
 package web
 
+type Images map[string]string
+
 type HistoryRequest struct {
-	HistoryId int    `json:"history_id" validate:"required"`
-	Image     string `json:"image" form:"image"`
-	Result    string `json:"result"`
-	User_id   uint   `json:"user_id"`
+	User_id        uint   `json:"user_id"`
+	Image          Images `json:"image" form:"image"`
+	Prediction     string `json:"prediction"`
+	Recommendation string `json:"recommendation"`
 }
