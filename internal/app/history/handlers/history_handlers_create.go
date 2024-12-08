@@ -16,6 +16,8 @@ import (
 func (history *HistoryHandlersImpl) Create(c *fiber.Ctx) error {
 	req := new(web.HistoryRequest)
 
+	userId := c.Locals("user_id").(int)
+
 	if err := c.BodyParser(req); err != nil {
 		fmt.Println(err.Error())
 		return response.BadRequest(c, "failed to bind history request", err)
@@ -26,13 +28,13 @@ func (history *HistoryHandlersImpl) Create(c *fiber.Ctx) error {
 		log.Fatalf("Error serializing map to JSON: %v", err)
 	}
 
-	err = history.service.Create(req, historyJson)
+	err = history.service.Create(req, historyJson,userId)
 	if err != nil {
 		if strings.Contains(err.Error(), "validation") {
 			return validation.ValidationError(c, err)
 		}
 		if strings.Contains(err.Error(), "FOREIGN KEY (`user_id`)") {
-			return response.InternalServerError(c, "Data user tidak ditemukan", err.Error())
+			return response.StatusOk(c,http.StatusOK, "Data user tidak ditemukan",nil)
 		}
 		return response.InternalServerError(c, "failed to create history, something happen", err.Error())
 	}

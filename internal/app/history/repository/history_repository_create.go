@@ -4,7 +4,7 @@ import (
 	"acne-scan-api/internal/model/domain"
 )
 
-func (history *HistoryRepositoryImpl) Create(domainHistory *domain.History,historyJson []byte) error {
+func (history *HistoryRepositoryImpl) Create(domainHistory *domain.History,historyJson []byte,userId int) error {
 	stmt, err := history.DB.Prepare("insert into history (history_id,user_id,image,prediction,recommendation,created_at,updated_at) values (?,?,?,?,?,?,?)")
 	if err != nil {
 		return err
@@ -14,7 +14,7 @@ func (history *HistoryRepositoryImpl) Create(domainHistory *domain.History,histo
 
 	_, err = stmt.Exec(
 		domainHistory.HistoryId,
-		domainHistory.User_id,
+		userId,
 		string(historyJson),
 		domainHistory.Prediction,
 		domainHistory.Recommendation,

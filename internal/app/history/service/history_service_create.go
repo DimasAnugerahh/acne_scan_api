@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func (history *HistoryServiceImpl) Create(request *web.HistoryRequest,historyJson []byte) error {
+func (history *HistoryServiceImpl) Create(request *web.HistoryRequest,historyJson []byte,userId int) error {
 	var err error
 
 	err = history.Validator.Struct(request)
@@ -26,7 +26,7 @@ func (history *HistoryServiceImpl) Create(request *web.HistoryRequest,historyJso
 	historyConv.CreatedAt = createdAt
 	historyConv.UpdatedAt = createdAt
 
-	err = history.HistoryRepository.Create(historyConv,historyJson)
+	err = history.HistoryRepository.Create(historyConv,historyJson,userId)
 	if err != nil {
 		return fmt.Errorf("error register %s", err.Error())
 	}
