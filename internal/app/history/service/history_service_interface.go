@@ -9,8 +9,9 @@ import (
 )
 
 type HistoryService interface {
-	Create(request *web.HistoryRequest, historyJson []byte) error
+	Create(request *web.HistoryRequest, historyJson []byte,userId int) error
 	GetById(id int) (*domain.History, error)
+	GetAll(id int) ([]*domain.History, error)
 }
 
 type HistoryServiceImpl struct {
