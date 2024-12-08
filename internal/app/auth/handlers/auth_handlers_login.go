@@ -35,11 +35,10 @@ func (authHandlers *AuthHandlersImpl) Login(c *fiber.Ctx) error {
 
 	token, err := jwt.GenerateAccessToken(data)
 	if err != nil {
-		return fmt.Errorf("failed to generate token %s",err.Error())
+		return fmt.Errorf("failed to generate token %s", err.Error())
 	}
 
-
-	result:=conversion.AuthResponse(*req, token,data.Role)
+	result := conversion.AuthResponse(*req, token, data.Role, int(data.User_id))
 
 	return response.StatusOk(c, 200, "login berhasil", result)
 }
