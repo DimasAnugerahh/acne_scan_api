@@ -1,0 +1,6 @@
+drop Table ingredients;
+
+ALTER TABLE history MODIFY COLUMN history_id INT NOT NULL AUTO_INCREMENT;
+
+
+ALTER TABLE history ADD FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE;
