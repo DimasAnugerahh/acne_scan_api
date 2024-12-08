@@ -14,6 +14,7 @@ func ExtractToken(tokenString string) (*web.AuthResponse, error) {
 	type MyCustomClaims struct {
 		Username string `json:"username"`
 		Role     string `json:"role"`
+		UserId   int `json:"user_id"`
 		jwt.RegisteredClaims
 	}
 
@@ -24,7 +25,8 @@ func ExtractToken(tokenString string) (*web.AuthResponse, error) {
 	if claims, ok := token.Claims.(*MyCustomClaims); ok && token.Valid {
 		extractedToken := &web.AuthResponse{
 			Username: claims.Username,
-			Role: claims.Role,
+			Role:     claims.Role,
+			UserId:   claims.UserId,
 		}
 		return extractedToken, nil
 	}

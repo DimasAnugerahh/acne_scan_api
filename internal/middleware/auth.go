@@ -36,9 +36,7 @@ func AuthMiddleware(role string) fiber.Handler {
 			return response.StatusForbidden(c, "forbidden", err)
 		}
 
-		if dataRole != role {
-			return response.StatusForbidden(c, "forbidden", err)
-		}
+		c.Locals("user_id", data.UserId)
 
 		return c.Next()
 	}
