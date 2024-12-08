@@ -7,6 +7,7 @@ import (
 
 type HistoryRepository interface {
 	Create(domainHistory *domain.History,historyJson []byte) error
+	GetById(id int) (*domain.History, error)
 }
 
 type HistoryRepositoryImpl struct {

@@ -1,14 +1,12 @@
-package domain
+package web
 
 import "time"
 
-type Images map[string]string
-
-type History struct {
+type HistoryResponse struct {
 	HistoryId      int    `json:"history_id"`
 	User_id        uint   `json:"user_id"`
 	Name           string `json:"name"`
-	Image          Images `json:"image" form:"image"`
+	Image          string `json:"image" form:"image"`
 	Prediction     string `json:"prediction"`
 	Recommendation string `json:"recommendation"`
 
